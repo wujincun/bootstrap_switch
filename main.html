@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Title</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-switch.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="panel-heading">
+    是否启用会员卡：
+    <input type="checkbox" name="flag" value="1"  checked="checked"  data="3"/>
+</div>
+<script src="docs/js/jquery.min.js"></script>
+<script src="docs/js/bootstrap.min.js"></script>
+<script src="docs/js/bootstrap-switch.min.js"></script>
+<script>
+        $(":checkbox[name='flag']").bootstrapSwitch();
+        $(':checkbox').on('switchChange.bootstrapSwitch', function (e, state) {
+            $this = $(this);
+            var status = this.checked ? 1 : 0;
+            $.post("./index.php?c=mc&a=card&do=ajax&op=status", {status: status}, function (resp) {
+                if (resp != 'success') {
+                    util.message('操作失败, 请稍后重试.')
+                } else {
+                    util.message('操作成功', location.href, 'success');
+                }
+            });
+        });
+
+</script>
+</body>
+</html>
